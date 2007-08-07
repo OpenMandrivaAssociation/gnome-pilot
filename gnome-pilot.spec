@@ -4,11 +4,13 @@
 
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
-Version: 2.0.14
+Version: 2.0.15
 Release:	%mkrel 2
 License:	GPL/LGPL
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
+# (fc) 2.0.15-2mdv fix version field in pc file
+Patch0:		gnome-pilot-2.0.15-fixversion.patch
 URL:		http://www.gnome.org/projects/gnome-pilot/
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -19,6 +21,9 @@ BuildRequires: scrollkeeper
 BuildRequires: perl-XML-Parser
 BuildRequires: automake1.9
 BuildRequires: intltool
+BuildRequires: desktop-file-utils
+BuildRequires: hal-devel
+BuildRequires: gob2
 
 Requires(post): scrollkeeper desktop-file-utils
 Requires(postun): scrollkeeper desktop-file-utils
@@ -55,7 +60,8 @@ gpilotd libraries and includes.
 
 
 %prep
-%setup -q 
+%setup -q
+%patch0 -p1 -b .fixversion
 
 %build
 
@@ -102,16 +108,18 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-pilot/conduits/*.{a,la}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%define gconf_schemas pilot
+
 %post
 %{update_menus}
-%post_install_gconf_schemas pilot
+%post_install_gconf_schemas %gconf_schemas
 %update_scrollkeeper
 %update_desktop_database
 
 %post -n %{libname} -p /sbin/ldconfig
 
 %preun
-%preun_uninstall_gconf_schemas %name
+%preun_uninstall_gconf_schemas %gconf_schemas
 
 %postun
 %{clean_menus}
@@ -149,7 +157,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{libname}-devel
 %defattr(-, root, root)
 %{_includedir}/*
-%{_libdir}/*so
+%{_libdir}/*.so
 %{_libdir}/*a
 %{_libdir}/pkgconfig/*
-
