@@ -82,7 +82,6 @@ EOF
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-gpilot-install-file.desktop << EOF
 [Desktop Entry]
-Encoding=UTF-8
 Name=GNOME Pilot Install Databases
 Comment=Install Databases on your Palm Pilot
 Exec=gpilot-install-file %U
