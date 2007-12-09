@@ -5,7 +5,7 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.15
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL/LGPL
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -19,7 +19,7 @@ BuildRequires: libgnomeui2-devel
 BuildRequires: libpanel-applet-devel
 BuildRequires: scrollkeeper
 BuildRequires: perl-XML-Parser
-BuildRequires: automake1.9
+BuildRequires: automake
 BuildRequires: intltool
 BuildRequires: desktop-file-utils
 BuildRequires: hal-devel
@@ -65,7 +65,7 @@ gpilotd libraries and includes.
 
 %build
 
-%configure2_5x--enable-usb --enable-vfs --enable-network
+%configure2_5x --enable-usb --enable-vfs --enable-network
 
 %make
 
@@ -74,11 +74,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %makeinstall_std 
 
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/%{name}
-?package(%{name}): needs="gnome" section="Office/Communications/PDA" command="gpilotd-control-applet" title="Pilot" longtitle="Access your Palm Pilot" icon="%{_datadir}/pixmaps/gnome-palm.png" xdg="true"
-?package(%{name}): needs="gnome" section=".hidden" command="gpilot-install-file"title="GNOME Pilot Install Databases" longtitle="Install Databases on your Palm Pilot" mimetypes="application/x-palm-database" expect_uris="false" multiple_files="true" xdg="true"
-EOF
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-gpilot-install-file.desktop << EOF
 [Desktop Entry]
@@ -90,13 +85,12 @@ Terminal=false
 Type=Application
 StartupNotify=true
 MimeType=application/x-palm-database;
-Categories=GNOME;
+Categories=GNOME;GTK;TelephonyTools;Utility;
 Hidden=true
 EOF
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
-  --add-category="X-MandrivaLinux-System-Configuration-GNOME" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/gpilotd-control-applet.desktop 
 
 %{find_lang} %{name} --with-gnome
@@ -144,7 +138,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/*
 %{_mandir}/man1/*
 %_datadir/applications/*.desktop
-%{_menudir}/*
 %dir %{_datadir}/omf/*
 %{_datadir}/omf/*/*-C.omf
 
