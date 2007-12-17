@@ -13,7 +13,6 @@ Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.b
 Patch0:		gnome-pilot-2.0.15-fixversion.patch
 URL:		http://www.gnome.org/projects/gnome-pilot/
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires: pilot-link-devel >= %{pilot_link_version}
 BuildRequires: libgnomeui2-devel
 BuildRequires: libpanel-applet-devel
