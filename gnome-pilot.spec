@@ -5,12 +5,14 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.15
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL/LGPL
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 # (fc) 2.0.15-2mdv fix version field in pc file
 Patch0:		gnome-pilot-2.0.15-fixversion.patch
+# (fc) 2.0.15-5mdv fix unresolved symbols (SVN) (GNOME bug #431145)
+Patch1:		gnome-pilot-2.0.15-unresolved-symbols.patch
 URL:		http://www.gnome.org/projects/gnome-pilot/
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -62,6 +64,11 @@ gpilotd libraries and includes.
 %prep
 %setup -q
 %patch0 -p1 -b .fixversion
+%patch1 -p1 -b .unresolved-symbols
+
+#needed by patch1
+intltoolize --force
+autoreconf
 
 %build
 
