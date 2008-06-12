@@ -106,11 +106,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %define gconf_schemas pilot
 
+%if %mdkversion < 200900
 %post
 %{update_menus}
 %post_install_gconf_schemas %gconf_schemas
 %update_scrollkeeper
 %update_desktop_database
+%endif
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -119,10 +121,12 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 %preun_uninstall_gconf_schemas %gconf_schemas
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
 %clean_scrollkeeper
 %clean_desktop_database
+%endif
 
 %if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
