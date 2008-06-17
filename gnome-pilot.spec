@@ -5,7 +5,7 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.16
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL/LGPL
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -26,6 +26,7 @@ BuildRequires: intltool
 BuildRequires: desktop-file-utils
 BuildRequires: hal-devel
 BuildRequires: gob2
+BuildRequires: libglade2-devel
 
 Requires(post): scrollkeeper desktop-file-utils
 Requires(postun): scrollkeeper desktop-file-utils
