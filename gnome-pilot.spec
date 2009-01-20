@@ -5,12 +5,14 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.17
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 # (fc) 2.0.15-2mdv fix version field in pc file
 Patch0:		gnome-pilot-2.0.15-fixversion.patch
+#gw don't link the gnome-pilot libs with hal
+Patch1:		gnome-pilot-2.0.17-fix-linking.patch
 Patch2:		gnome-pilot-2.0.17-format-strings.patch
 URL:		http://www.gnome.org/projects/gnome-pilot/
 
@@ -64,7 +66,9 @@ gpilotd libraries and includes.
 %prep
 %setup -q
 %patch0 -p1 -b .fixversion
+%patch1 -p1
 %patch2 -p1
+autoreconf
 
 %build
 
