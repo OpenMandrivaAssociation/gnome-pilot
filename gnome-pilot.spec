@@ -68,7 +68,7 @@ gpilotd libraries and includes.
 %patch0 -p1 -b .fixversion
 %patch1 -p1
 %patch2 -p1
-autoreconf
+autoreconf -fi
 
 %build
 
