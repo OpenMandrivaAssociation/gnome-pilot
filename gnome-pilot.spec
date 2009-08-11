@@ -147,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/gnome-pilot
 %dir %{_libdir}/gnome-pilot/conduits
 %{_libdir}/gnome-pilot/conduits/*.so*
+%{_libdir}/gnome-pilot/conduits/*.la
 %{_datadir}/gnome-pilot
 %{_datadir}/idl/*
 %{_datadir}/mime-info/*
