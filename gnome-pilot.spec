@@ -5,7 +5,7 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.17
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -102,8 +102,9 @@ desktop-file-install --vendor="" \
 
 %{find_lang} %{name} --with-gnome
 
-# remove unpackaged files 
-rm -f $RPM_BUILD_ROOT%{_libdir}/gnome-pilot/conduits/*.{a,la}
+# remove unpackaged files
+find $RPM_BUILD_ROOT -name *.a | xargs rm
+find $RPM_BUILD_ROOT -name *.la | xargs rm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -158,12 +159,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n %{libname}
 %defattr(-, root, root)
-%{_libdir}/*.so.*
-
+%{_libdir}/*.so.%{major}*
 
 %files -n %{libname}-devel
 %defattr(-, root, root)
 %{_includedir}/*
 %{_libdir}/*.so
-%{_libdir}/*a
 %{_libdir}/pkgconfig/*
