@@ -5,7 +5,7 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.17
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
