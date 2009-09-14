@@ -21,7 +21,6 @@ BuildRequires: pilot-link-devel >= %{pilot_link_version}
 BuildRequires: libgnomeui2-devel
 BuildRequires: libpanel-applet-devel
 BuildRequires: scrollkeeper
-BuildRequires: perl-XML-Parser
 BuildRequires: automake
 BuildRequires: intltool
 BuildRequires: desktop-file-utils
