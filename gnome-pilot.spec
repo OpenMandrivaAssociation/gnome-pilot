@@ -1,11 +1,12 @@
 %define major 2
 %define pilot_link_version 0.12.0
 %define libname %mklibname %{name} %{major}
+%define develname %mklibname -d %{name}
 
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version: 2.0.17
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -43,24 +44,19 @@ Group:		System/Libraries
 %description -n %{libname}
 GNOME-Pilot libraries 
 
-%package -n %{libname}-devel
-
+%package -n %{develname}
 Summary:	GNOME pilot libraries, includes, etc
 Group:		Development/GNOME and GTK+
 Requires: 	%{name} = %{version}
 Requires:	%{libname} = %{version}
-
 Requires:	pilot-link-devel >= %{pilot_link_version}
-Requires:	libgnomeui2-devel
-
-Obsoletes:  %{name}-devel
+Obsoletes:	%{name}-devel < %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
+Obsoletes:	%{_lib}gnome-pilot2-devel < 2.0.17-7
 
-%description -n %{libname}-devel
+%description -n %{develname}
 gpilotd libraries and includes.
-
-
 
 %prep
 %setup -q
@@ -70,14 +66,11 @@ gpilotd libraries and includes.
 autoreconf -fi
 
 %build
-
 %configure2_5x --enable-usb --enable-vfs --enable-network --with-hal
-
 %make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %makeinstall_std 
 
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
@@ -160,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, root, root)
 %{_libdir}/*.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-, root, root)
 %{_includedir}/*
 %{_libdir}/*.so
