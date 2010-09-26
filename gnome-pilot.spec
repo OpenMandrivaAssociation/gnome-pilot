@@ -1,25 +1,24 @@
-%define major 2
+%define major 5
 %define pilot_link_version 0.12.0
 %define libname %mklibname %{name} %{major}
+%define cmmajor 4
+%define libnamecm %mklibname pilotdcm %cmmajor
+%define conduitmajor 3
+%define libnameconduit %mklibname gpilotdconduit %conduitmajor
 %define develname %mklibname -d %{name}
 
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
-Version: 2.0.17
-Release:	%mkrel 7
+Version: 2.32.0
+Release:	%mkrel 1
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
-# (fc) 2.0.15-2mdv fix version field in pc file
-Patch0:		gnome-pilot-2.0.15-fixversion.patch
-#gw don't link the gnome-pilot libs with hal or libglade
-Patch1:		gnome-pilot-2.0.17-fix-linking.patch
-Patch2:		gnome-pilot-2.0.17-format-strings.patch
 URL:		http://www.gnome.org/projects/gnome-pilot/
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires: pilot-link-devel >= %{pilot_link_version}
-BuildRequires: libgnomeui2-devel
+BuildRequires: evolution-data-server-devel
 BuildRequires: libpanel-applet-devel
 BuildRequires: scrollkeeper
 BuildRequires: automake
@@ -27,8 +26,6 @@ BuildRequires: intltool
 BuildRequires: desktop-file-utils
 BuildRequires: hal-devel
 BuildRequires: gob2
-BuildRequires: libglade2-devel
-
 Requires(post): scrollkeeper desktop-file-utils
 Requires(postun): scrollkeeper desktop-file-utils
 
@@ -44,11 +41,29 @@ Group:		System/Libraries
 %description -n %{libname}
 GNOME-Pilot libraries 
 
+%package -n %{libnamecm}
+
+Summary:	GNOME pilot libraries
+Group:		System/Libraries
+
+%description -n %{libnamecm}
+GNOME-Pilot libraries 
+
+%package -n %{libnameconduit}
+
+Summary:	GNOME pilot libraries
+Group:		System/Libraries
+
+%description -n %{libnameconduit}
+GNOME-Pilot libraries 
+
 %package -n %{develname}
 Summary:	GNOME pilot libraries, includes, etc
 Group:		Development/GNOME and GTK+
 Requires: 	%{name} = %{version}
 Requires:	%{libname} = %{version}
+Requires:	%{libnamecm} = %{version}
+Requires:	%{libnameconduit} = %{version}
 Requires:	pilot-link-devel >= %{pilot_link_version}
 Obsoletes:	%{name}-devel < %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
@@ -60,12 +75,9 @@ gpilotd libraries and includes.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fixversion
-%patch1 -p1 -b .fix-linking
-%patch2 -p1
-autoreconf -fi
 
 %build
+%define _disable_ld_no_undefined 1
 %configure2_5x --enable-usb --enable-vfs --enable-network --with-hal
 %make
 
@@ -101,32 +113,8 @@ find $RPM_BUILD_ROOT -name *.a | xargs rm
 rm -rf $RPM_BUILD_ROOT
 
 %define gconf_schemas pilot
-
-%if %mdkversion < 200900
-%post
-%{update_menus}
-%post_install_gconf_schemas %gconf_schemas
-%update_scrollkeeper
-%update_desktop_database
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
 %preun
 %preun_uninstall_gconf_schemas %gconf_schemas
-
-%if %mdkversion < 200900
-%postun
-%{clean_menus}
-%clean_scrollkeeper
-%clean_desktop_database
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
 
 %files -f %{name}.lang
 %defattr(-, root, root)
@@ -141,17 +129,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-pilot/conduits/*.so*
 %{_libdir}/gnome-pilot/conduits/*.la
 %{_datadir}/gnome-pilot
-%{_datadir}/idl/*
 %{_datadir}/mime-info/*
 %{_datadir}/pixmaps/*
 %{_mandir}/man1/*
 %_datadir/applications/*.desktop
 %dir %{_datadir}/omf/*
 %{_datadir}/omf/*/*-C.omf
+%_datadir/dbus-1/services/org.gnome.GnomePilot.service
 
 %files -n %{libname}
 %defattr(-, root, root)
-%{_libdir}/*.so.%{major}*
+%{_libdir}/libgpilotd.so.%{major}*
+
+%files -n %{libnamecm}
+%defattr(-, root, root)
+%{_libdir}/libgpilotdcm.so.%{cmmajor}*
+
+%files -n %{libnameconduit}
+%defattr(-, root, root)
+%{_libdir}/libgpilotdconduit.so.%{conduitmajor}*
 
 %files -n %{develname}
 %defattr(-, root, root)
