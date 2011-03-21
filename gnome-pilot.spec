@@ -20,11 +20,12 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires: pilot-link-devel >= %{pilot_link_version}
 BuildRequires: evolution-data-server-devel
 BuildRequires: libpanel-applet-devel
+BuildRequires: libgudev-devel
 BuildRequires: scrollkeeper
 BuildRequires: automake
 BuildRequires: intltool
 BuildRequires: desktop-file-utils
-BuildRequires: hal-devel
+BuildRequires: gnome-doc-utils
 BuildRequires: gob2
 Requires(post): scrollkeeper desktop-file-utils
 Requires(postun): scrollkeeper desktop-file-utils
@@ -78,7 +79,7 @@ gpilotd libraries and includes.
 
 %build
 %define _disable_ld_no_undefined 1
-%configure2_5x --enable-usb --enable-vfs --enable-network --with-hal
+%configure2_5x --enable-usb --enable-network
 %make
 
 %install
