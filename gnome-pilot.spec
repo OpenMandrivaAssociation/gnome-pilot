@@ -9,7 +9,7 @@
 
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
-Version: 2.32.0
+Version: 2.32.1
 Release:	%mkrel 1
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
@@ -105,7 +105,9 @@ desktop-file-install --vendor="" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/gpilotd-control-applet.desktop 
 
 %{find_lang} %{name} --with-gnome
-
+for omf in %buildroot%_datadir/omf/*/*-??*.omf;do
+   echo "%lang($(basename $omf|sed -e s/.*-// -e s/.omf//)) $(echo $omf|sed -e s!%buildroot!!)" >> %name.lang
+done 
 # remove unpackaged files
 find $RPM_BUILD_ROOT -name *.a | xargs rm
 
