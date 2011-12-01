@@ -83,11 +83,11 @@ gpilotd libraries and includes.
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std 
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-gpilot-install-file.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-gpilot-install-file.desktop << EOF
 [Desktop Entry]
 Name=GNOME Pilot Install Databases
 Comment=Install Databases on your Palm Pilot
@@ -103,17 +103,17 @@ EOF
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/gpilotd-control-applet.desktop 
+  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/gpilotd-control-applet.desktop 
 
 %{find_lang} %{name} --with-gnome
 for omf in %buildroot%_datadir/omf/*/*-??*.omf;do
    echo "%lang($(basename $omf|sed -e s/.*-// -e s/.omf//)) $(echo $omf|sed -e s!%buildroot!!)" >> %name.lang
 done 
 # remove unpackaged files
-find $RPM_BUILD_ROOT -name *.a | xargs rm
+find %{buildroot} -name *.a | xargs rm
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %define gconf_schemas pilot
 %preun
