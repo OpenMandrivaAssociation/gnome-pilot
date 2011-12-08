@@ -1,7 +1,9 @@
+%define _disable_ld_no_undefined 1
+
 %define api 3.0
 %define major 0
-%define cmmajor 4
-%define conduitmajor 3
+%define cmmajor 0
+%define conduitmajor 0
 %define libname %mklibname %{name} %{api} %{major}
 %define libcm %mklibname pilotdcm %{api} %{cmmajor}
 %define libconduit %mklibname gpilotdconduit %{api} %{conduitmajor}
@@ -72,7 +74,6 @@ gpilotd libraries and includes.
 %setup -q
 
 %build
-%define _disable_ld_no_undefined 1
 %configure2_5x \
 	--disable-static \
 	--enable-usb \
@@ -135,15 +136,16 @@ done
 %{_mandir}/man1/*
 
 %files -n %{libname}
-%{_libdir}/libgpilotd.so.%{major}*
+%{_libdir}/libgpilotd-%{api}.so.%{major}*
 
 %files -n %{libcm}
-%{_libdir}/libgpilotdcm.so.%{cmmajor}*
+%{_libdir}/libgpilotdcm-%{api}.so.%{cmmajor}*
 
 %files -n %{libconduit}
-%{_libdir}/libgpilotdconduit.so.%{conduitmajor}*
+%{_libdir}/libgpilotdconduit-%{api}.so.%{conduitmajor}*
 
 %files -n %{develname}
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
+
