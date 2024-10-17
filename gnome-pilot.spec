@@ -15,7 +15,7 @@ Version:	2.91.93
 Release:	3
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
-URL:		http://www.gnome.org/projects/gnome-pilot/
+URL:		https://www.gnome.org/projects/gnome-pilot/
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRequires: intltool
