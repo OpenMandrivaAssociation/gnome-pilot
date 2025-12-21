@@ -18,6 +18,11 @@ Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gnome-pilot/
 Source0: 	ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires: intltool
 BuildRequires: desktop-file-utils
 BuildRequires: gnome-doc-utils-devel
