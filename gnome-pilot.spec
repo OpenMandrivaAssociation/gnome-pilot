@@ -12,7 +12,7 @@
 Summary:	GNOME Pilot programs
 Name:		gnome-pilot
 Version:	2.91.93
-Release:	3
+Release:	4
 License:	GPLv2+ and LGPLv2+
 Group:		Graphical desktop/GNOME
 URL:		https://www.gnome.org/projects/gnome-pilot/
